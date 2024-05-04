@@ -1,0 +1,58 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules
+bower_components
+
+# IDEs and editors
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Compiled output
+dist
+build
+
+# Coverage reports
+coverage
+
+# IDE - VSCode
+.history/*
+
+# Misc
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+
+# IntelliJ IDEA
+.idea
+
+# WebStorm
+.idea
+*.iml
+
+# Yarn
+yarn-error.log
+
+# macOS
+.DS_Store
+
+# Others
+.nyc_output
