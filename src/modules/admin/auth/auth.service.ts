@@ -77,8 +77,10 @@ export class AuthService {
     }
 
     // 生成JWT
-    const payload = { userId: user.id, username: user };
-    const token = this.jwtService.sign(payload);
+    const payload = { userId: user.id, username: user.username };
+    const token = this.jwtService.sign(payload, {
+      secret: process.env.JWT_SECRET_KEY,
+    });
 
     // 返回用户信息
     return {
@@ -88,5 +90,3 @@ export class AuthService {
     };
   }
 }
-
-// 去Controller处理http请求
