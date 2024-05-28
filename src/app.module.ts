@@ -9,6 +9,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtGuard } from './utils/jwt/jwt.guard';
 import { DocsModule } from './modules/admin/docs/docs.module';
+import { ToolsModule } from "./modules/admin/tools/tools.module";
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { DocsModule } from './modules/admin/docs/docs.module';
     }),
     AuthModule,
     DocsModule,
+    ToolsModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
