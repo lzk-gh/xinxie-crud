@@ -3,9 +3,9 @@ import { AuthService } from "./auth.service";
 import { LoginDto, LoginResponse, RegisterDto } from "./auth.dto";
 import { Public } from "../../../utils/jwt/public.decorator";
 
-@Controller('auth') // 设置控制权路由前缀为 /auth
+@Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {} // 注入了在service中的类
+  constructor(private readonly authService: AuthService) {}
   @Public()
   @Post('register') // 处理 POST /auth/register 请求
   async register(@Body() registerDto: RegisterDto): Promise<{ message: string }>{
