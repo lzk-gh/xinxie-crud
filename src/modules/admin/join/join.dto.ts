@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class JoinDto {
   @IsString()
@@ -18,4 +18,7 @@ export class JoinDto {
 
   @IsString()
   reason: string;
+
+  @IsNumber()
+  status: number;
 }
