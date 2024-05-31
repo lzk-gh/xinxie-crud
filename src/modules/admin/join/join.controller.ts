@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Post } from '@nestjs/common';
 import { JoinService } from './join.service';
 import { JoinDto } from './join.dto';
 import { Public } from "../../../utils/jwt/public.decorator";
@@ -13,8 +13,12 @@ export class JoinController {
   }
 
   @Post('list_one')
-  async listOne(@Body() joinDto: JoinDto): Promise<JoinDto> {
-    return this.joinService.findOne(joinDto.name);
+  async listOne(@Body() joinDto: JoinDto): Promise<JoinDto | { message: string }> {
+    const student = await this.joinService.findOne(joinDto.name);
+    if (!student) {
+      throw new NotFoundException('未找到该学生');
+    }
+    return student;
   }
 
   @Public()
