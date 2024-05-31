@@ -9,7 +9,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtGuard } from './utils/jwt/jwt.guard';
 import { DocsModule } from './modules/admin/docs/docs.module';
-import { ToolsModule } from "./modules/admin/tools/tools.module";
+import { ToolsModule } from './modules/admin/tools/tools.module';
+import { JoinModule } from './modules/admin/join/join.module';
 
 @Module({
   imports: [
@@ -29,11 +30,12 @@ import { ToolsModule } from "./modules/admin/tools/tools.module";
     AuthModule,
     DocsModule,
     ToolsModule,
+    JoinModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get('JWT_SECRET_KEY'), // 从环境变量获取 secret
+        secret: configService.get('JWT_SECRET_KEY'),
         signOptions: { expiresIn: '7d' },
       }),
     }),
@@ -47,6 +49,4 @@ import { ToolsModule } from "./modules/admin/tools/tools.module";
     },
   ],
 })
-
-
 export class AppModule {}
