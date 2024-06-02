@@ -11,6 +11,7 @@ import { JwtGuard } from './utils/jwt/jwt.guard';
 import { DocsModule } from './modules/admin/docs/docs.module';
 import { ToolsModule } from './modules/admin/tools/tools.module';
 import { JoinModule } from './modules/admin/join/join.module';
+import { MailerModule } from './modules/admin/mailer/mailer.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { JoinModule } from './modules/admin/join/join.module';
     DocsModule,
     ToolsModule,
     JoinModule,
+    MailerModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
