@@ -4,7 +4,18 @@ import * as process from 'process';
 import { MailerDto } from './mailer.dto';
 import { from, Observable, of, Subject, lastValueFrom } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { EmailSentData } from './mailer.controller';
+
+interface EmailSentDataBase {
+  id: number;
+  email: string;
+  status: string;
+}
+
+interface EmailSentDataDone {
+  type: '[DONE]';
+}
+
+export type EmailSentData = EmailSentDataBase | EmailSentDataDone;
 
 @Injectable()
 export class MailerService {
@@ -35,21 +46,24 @@ export class MailerService {
         const result = await lastValueFrom(this.sendEmail(data));
         this.emailSent$.next(result);
       } catch (error) {
-        this.emailSent$.next({ email: data.email, success: false, error });
+        this.emailSent$.next({
+          id: data.id,
+          email: data.email,
+          status: 'error',
+        });
       }
     });
 
-    await Promise.all(sendPromises);
-
-    // 所有邮件发送完成后，手动完成 Observable
-    this.emailSent$.complete();
+    await Promise.all(sendPromises).then(() => {
+      this.emailSent$.next({ type: '[DONE]' });
+    });
   }
 
   // 发送单个邮件
   private sendEmail(data: MailerDto): Observable<EmailSentData> {
     const { email, username, isPassed } = data;
     const mailOptions: nodemailer.SendMailOptions = {
-      from: `1342210664@qq.com`,
+      from: process.env.EMAIL_USER,
       to: email,
       subject: '面试结果通知',
       html: this.generateEmailContent(username, isPassed),
@@ -57,11 +71,10 @@ export class MailerService {
 
     return from(this.transporter.sendMail(mailOptions)).pipe(
       // 发送成功
-      map(() => ({ email, success: true })),
+      map(() => ({ id: data.id, email, status: 'success' })),
       // 发送失败
-      catchError((error) => {
-        console.error(`发送面试结果邮件给 ${username} (${email}) 失败:`, error);
-        return of({ email, success: false, error });
+      catchError(() => {
+        return of({ id: data.id, email, status: 'error' });
       }),
     );
   }
