@@ -1,6 +1,11 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNumber, IsString } from 'class-validator';
 
 export class JoinDto {
+  // 可批量更新状态
+  @IsArray()
+  @IsNumber()
+  ids: number[];
+
   @IsString()
   studentId: string;
 
@@ -20,5 +25,10 @@ export class JoinDto {
   reason: string;
 
   @IsNumber()
+  status: number;
+}
+
+export class UpdateJoinDto {
+  id: number;
   status: number;
 }

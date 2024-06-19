@@ -26,7 +26,7 @@ export class Join {
   @Column()
   reason: string;
 
-  // 状态 0: 未处理 1: 通过 2: 拒绝
+  // 状态 0: 未处理 1: 通过 2: 拒绝 3: 空邮箱
   @Column( { default: 0 })
   status: number;
 
